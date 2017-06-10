@@ -7,18 +7,24 @@ html, body {
   color: #222222;
 }
 
+* {
+  box-sizing: border-box;
+}
+
+/* Helpers */
+/*************************************/
 .cf:after {
   content: "";
   display: table;
   clear: both;
 }
 
-* {
-  box-sizing: border-box;
-}
-
 a, a:visited {
   color: #A463F2;
+}
+
+img {
+  max-width: 100%;
 }
 
 input[type='text'],
@@ -58,10 +64,23 @@ input[type='email']:focus {
   padding: 0.5rem 0.75rem;
   font-size: 1rem;
   color: #FFFFFF;
+  text-decoration: none;
+}
+.btn--large {
+  font-size: 1.2rem;
+  padding: 0.75rem 1rem;
 }
 .btn--secondary {
   background: #FFFFFF;
   color: #A463F2;
+}
+.btn--inverse {
+  background: #FFFFFF;
+  border-color: #FFFFFF;
+  color: #A463F2;
+}
+.btn--inverse:hover {
+  opacity: 0.8;
 }
 
 .note {
@@ -86,6 +105,8 @@ input[type='email']:focus {
   background: #D9EDF7;
 }
 
+/* Layout */
+/*************************************/
 .page-container {
   background: #FFFFFF;
   min-height: 100%;
@@ -103,6 +124,10 @@ input[type='email']:focus {
 .page-header h1 {
   float: left;
   margin: 0;
+}
+.page-header h1 a {
+  color: #FFFFFF;
+  text-decoration: none;
 }
 .page-header aside {
   float: right;
@@ -148,6 +173,57 @@ input[type='email']:focus {
   padding: 0 0 1rem;
 }
 
+/* Home */
+/*************************************/
+.home__hero {
+  background: #A463F2;
+  color: #FFFFFF;
+  padding: 3rem;
+  margin: -1rem -2rem;
+  text-align: center;
+}
+.home__hero h1 {
+  font-size: 3.5rem;
+}
+.home__hero h2 {
+  font-size: 2rem;
+  font-weight: 300;
+  margin-bottom: 0.5rem;
+}
+.home__hero p {
+  font-size: 1.5rem;
+  font-weight: 300;
+  margin-top: 0;
+}
+
+.home__features {
+  padding: 4rem 2rem;
+}
+.home__features__list {
+  width: 40%;
+  float: left;
+}
+.home__features__list h2 {
+  margin-top: 0;
+  font-weight: 300;
+  font-size: 2rem;
+}
+.home__features__list ul {
+  font-size: 1.2rem;
+  padding-left: 1.4rem;
+  line-height: 1.5;
+}
+.home__features__screen {
+  width: 60%;
+  float: right;
+}
+.home__features__screen img {
+  border: 2px solid #CCCCCC;
+  border-radius: 3px;
+}
+
+/* Research */
+/*************************************/
 .research__header {
   margin-bottom: 1rem;
 }

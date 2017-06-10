@@ -8,14 +8,14 @@
 
   <title>{% block title %}{% endblock %} | Alpha Beta Iota</title>
 
-  <link rel="stylesheet" href="{% static 'main.css' %}" />
+  <link rel="stylesheet" href="{% static 'styles/main.css' %}" />
 </head>
 
 <body>
   <div class="page-container">
     <header class="page-header">
       <div class="cf">
-        <h1>αlpha βeta ιota</h1>
+        <h1><a href="{% url 'home' %}">αlpha βeta ιota</a></h1>
         <aside>
           {% if user.is_authenticated %}
             <span>Hi, {{ user.username }}!</span>&nbsp;
@@ -27,15 +27,17 @@
         </aside>
       </div>
     </header>
-    <nav class="page-navigation">
-      {% block nav %}
+
+    {% block nav %}
+      <nav class="page-navigation">
         <a href="{% url 'dashboard' %}">Dashboard</a>
-        <a href="{% url 'dashboard' %}">Trade</a>
-        <a href="{% url 'dashboard' %}">Research</a>
-        <a href="{% url 'dashboard' %}">Games & Rankings</a>
-        <a href="{% url 'dashboard' %}">Account Management</a>
-      {% endblock %}
-    </nav>
+        <a href="{% url 'trade' %}">Trade</a>
+        <a href="{% url 'research' %}">Research</a>
+        <a href="{% url 'games' %}">Games & Rankings</a>
+        <a href="{% url 'account' %}">Account Management</a>
+      </nav>
+    {% endblock %}
+
     <main class="page-content">
       {% block content %}{% endblock %}
     </main>

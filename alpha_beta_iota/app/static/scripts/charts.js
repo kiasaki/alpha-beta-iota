@@ -77,6 +77,7 @@ function chartComplex(target, name, url) {
 
   d3.csv(url, function(error, data) {
     if (error) {
+      alert('Error fetching chart data!');
       throw error;
     }
 

@@ -1,16 +1,18 @@
 import csv
-import json
-import requests
+import pytz
 from datetime import datetime
 from django import forms
 from django.conf import settings
 from django.http import HttpResponse
-from django.core.cache import cache
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
+
+from app.utils import cached
+from app.kibot import kibot_fetch_history
+from app.models import AssetType, AssetTickSummary
 
 
 class SignUpForm(UserCreationForm):
@@ -29,6 +31,22 @@ def home(request):
 def dashboard(request):
     return render(request, 'dashboard.html')
 
+@login_required
+def trade(request):
+    return render(request, 'trade.html')
+
+@login_required
+def research(request):
+    return render(request, 'research.html')
+
+@login_required
+def games(request):
+    return render(request, 'games.html')
+
+@login_required
+def account(request):
+    return render(request, 'account.html')
+
 
 def signup(request):
     if request.method == 'POST':
@@ -44,25 +62,18 @@ def signup(request):
         form = SignUpForm()
     return render(request, 'registration/signup.html', {'form': form})
 
+new_york_tz = pytz.timezone('America/New_York')
 
-KIBOT_HISTORY_URL_BASE = 'http://api.kibot.com/?action=history&splitadjusted=1'
-
-def kibot_fetch_history(symbol, interval, period):
-    url = KIBOT_HISTORY_URL_BASE + '&symbol={}&interval={}&period={}'.format(
-        symbol, interval, period
-    )
-
-    resp = requests.get(url)
-    if resp.text == '401 Not Logged In':
-        requests.get('http://api.kibot.com/?action=login&user=guest&password=guest')
-        resp = requests.get(url)
-
-    if resp.status_code != 200:
-        raise Exception('Error calling kibot. Got status code: ' + resp.status_code)
-
-    fieldnames = ['dt', 'o', 'h', 'l', 'c', 'vol']
-    reader = csv.DictReader(resp.text.split('\n'), fieldnames=fieldnames)
-    return list(reader)
+def fetch_history(symbol, interval, period):
+    values = kibot_fetch_history(symbol, interval, period)
+    for value in values:
+        dt = datetime.strptime(value['dt'] + ' 15:59:59', '%m/%d/%Y %H:%M:%S')
+        value['dt'] = dt.strftime('%Y-%m-%d %H:%M:%S')
+        value['o'] = int(float(value['o'])*10000)
+        value['h'] = int(float(value['h'])*10000)
+        value['l'] = int(float(value['l'])*10000)
+        value['c'] = int(float(value['c'])*10000)
+    return values
 
 
 def feed(request):
@@ -70,13 +81,34 @@ def feed(request):
     interval = request.GET['interval']
     period = request.GET['period']
 
+    if interval not in ('minute', 'daily', 'weekly', 'monthly'):
+        return HttpResponse('Invalid interval provided', status=400)
+
+    try:
+        period = int(period)
+    except ValueError:
+        return HttpResponse('Invalid period provided', status=400)
+
     cache_key = 'kibot-history-{}-{}-{}'.format(symbol, interval, period)
-    cached = cache.get(cache_key)
-    if cached:
-        values = json.loads(cached)
-    else:
-        values = kibot_fetch_history(symbol, interval, period)
-        cache.set(cache_key, json.dumps(values), 300)
+    values, miss = cached(
+        cache_key, 300,
+        lambda: fetch_history(symbol, interval, period)
+    )
+
+    if miss:
+        for value in values:
+            AssetTickSummary.objects.get_or_create(
+                dt=new_york_tz.localize(datetime.strptime(value['dt'], '%Y-%m-%d %H:%M:%S')),
+                type=AssetType.STOCKS,
+                sym=symbol,
+                defaults={
+                    'o': value['o'],
+                    'h': value['h'],
+                    'l': value['l'],
+                    'c': value['c'],
+                    'vol': value['vol'],
+                }
+            )
 
     response = HttpResponse(content_type='text/csv')
     writer = csv.writer(response)
@@ -84,11 +116,11 @@ def feed(request):
 
     for value in values:
         writer.writerow([
-            datetime.strptime(value['dt'], '%m/%d/%Y').strftime('%Y-%m-%d %H:%M:%S'),
-            value['o'],
-            value['h'],
-            value['l'],
-            value['c'],
+            value['dt'],
+            value['o']/10000,
+            value['h']/10000,
+            value['l']/10000,
+            value['c']/10000,
             value['vol'],
         ])
 
