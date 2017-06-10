@@ -59,6 +59,10 @@ input[type='email']:focus {
   font-size: 1rem;
   color: #FFFFFF;
 }
+.btn--secondary {
+  background: #FFFFFF;
+  color: #A463F2;
+}
 
 .note {
   padding: 1rem;
@@ -143,3 +147,40 @@ input[type='email']:focus {
   margin: 0;
   padding: 0 0 1rem;
 }
+
+.research__header {
+  margin-bottom: 1rem;
+}
+.research__header__symbol {
+  float: left;
+}
+.research__header__symbol input {
+  width: 12rem;
+}
+.research__header__symbol input, .research__header__symbol button {
+  display: inline-block;
+}
+.research__header__interval {
+  float: right;
+}
+.research__header__interval .btn {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.375rem;
+}
+.research__chart {
+  border: 2px solid #efefef;
+  border-radius: 3px;
+}
+
+.chart-complex { font-size: 0.625rem; }
+.chart-complex path.candle { stroke: #222222; }
+.chart-complex path.candle.body { stroke-width: 0; }
+.chart-complex path.candle.up { fill: #A3DF44; stroke: #A3DF44; }
+.chart-complex path.candle.down { fill: #DF5644; stroke: #DF5644; }
+.chart-complex path.volume { fill: rgba(50, 50, 50, 0.25); }
+.chart-complex .y.annotation.left path { fill: #A3DF44; }
+.chart-complex .y.annotation.right path { fill: #DF5644; }
+.chart-complex .x.annotation path { fill: #DDD80E; }
+.chart-complex .crosshair { cursor: crosshair; }
+.chart-complex .crosshair path.wire { stroke: #CCCCCC; stroke-dasharray: 1, 1; }
+.chart-complex .crosshair .axisannotation path { fill: #CCCCCC; }

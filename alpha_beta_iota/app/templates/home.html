@@ -1,5 +1,84 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
-Home
+  <div class="research">
+    <header class="research__header cf">
+      <div class="research__header__symbol">
+        <input type="text" id="symbol" placeholder="Symbol (e.g. MSFT)" value="MSFT" />
+        <button onclick="javascript:updateSymbol();" class="btn">Show</button>
+      </div>
+      <div class="research__header__interval">
+        <button onclick="javascript:setInterval('1d');" class="int-1d btn">1 day</button>
+        <button onclick="javascript:setInterval('5d');" class="int-5d btn">5 days</button>
+        <button onclick="javascript:setInterval('1m');" class="int-1m btn">1 month</button>
+        <button onclick="javascript:setInterval('3m');" class="int-3m btn">3 months</button>
+        <button onclick="javascript:setInterval('1y');" class="int-1y btn btn--secondary">1 year</button>
+        <button onclick="javascript:setInterval('5y');" class="int-5y btn">5 years</button>
+      </div>
+    </header>
+  </div>
+
+  <div class="research__chart" id="chart"></div>
+  <script type="text/javascript" src="{% static 'scripts/d3.v4.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'scripts/techan.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'scripts/charts.js' %}"></script>
+  <script type="text/javascript">
+    var target = '#chart';
+    var symbol = 'MSFT';
+    var intervalName = '1y';
+
+    function update(symbol, intervalName) {
+      var interval = null;
+      var period = null;
+
+      switch (intervalName) {
+        case '1d':
+          interval = 'minute';
+          period = 390;
+          break;
+        case '5d':
+          interval = 'daily';
+          period = 5;
+          break;
+        case '1m':
+          interval = 'daily';
+          period = 31;
+          break;
+        case '3m':
+          interval = 'weekly';
+          period = 3 * 31;
+          break;
+        case '1y':
+          interval = 'weekly';
+          period = 365;
+          break;
+        case '5y':
+          interval = 'monthly';
+          period = 365 * 5;
+          break;
+        default:
+          throw new Error('invalid periodName');
+      }
+
+      chartComplex(target, symbol, ['/feed.csv?symbol=', symbol, '&interval=', interval, '&period=', period].join(''));
+    }
+
+    function updateSymbol() {
+      symbol = document.getElementById('symbol').value;
+      update(symbol, intervalName);
+    }
+
+    function setInterval(newIntervalName) {
+      intervalName = newIntervalName;
+      update(symbol, intervalName);
+
+      var oldBtn = document.querySelector('.research__header__interval .btn.btn--secondary');
+      oldBtn.classList.remove('btn--secondary');
+      var newBtn = document.querySelector('.research__header__interval .btn.int-' + intervalName);
+      newBtn.classList.add('btn--secondary');
+    }
+
+    update(symbol, intervalName);
+  </script>
 {% endblock %}
