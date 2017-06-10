@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+
+<h2 class="page-title">Login</h2>
+
+<form method="post" action="{% url 'login' %}" class="form">
+  {% if form.errors %}
+    <div class="note note--danger">
+      Your username and password didn't match. Please try again.
+    </div>
+  {% endif %}
+
+  {% if next != '/dashboard/' %}
+    {% if user.is_authenticated %}
+      <div class="note note--warning">
+        Your account doesn't have access to this page. To proceed,
+        please login with an account that has access.
+      </div>
+    {% else %}
+      <div class="note note--warning">
+        Please login to see this page.
+      </div>
+    {% endif %}
+  {% endif %}
+
+  {% csrf_token %}
+
+  <div class="form__field">
+    {{ form.username.label_tag }}
+    {{ form.username }}
+  </div>
+  <div class="form__field">
+    {{ form.password.label_tag }}
+    {{ form.password }}
+  </div>
+
+  <button type="submit" class="btn">Login</button>
+  <input type="hidden" name="next" value="{{ next }}" />
+</form>
+
+<p>
+  Forgot your password?
+  <a href="{% url 'password_reset' %}">Reset it</a>
+</p>
+
+{% endblock %}

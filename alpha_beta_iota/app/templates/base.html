@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>{% block title %}{% endblock %} | Alpha Beta Iota</title>
+
+  <link rel="stylesheet" href="{% static 'main.css' %}" />
+</head>
+
+<body>
+  <div class="page-container">
+    <header class="page-header">
+      <div class="cf">
+        <h1>αlpha βeta ιota</h1>
+        <aside>
+          {% if user.is_authenticated %}
+            <span>Hi, {{ user.username }}!</span>&nbsp;
+            <a href="{% url 'logout' %}">Signout</a>
+          {% else %}
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'signup' %}">Signup</a>
+          {% endif %}
+        </aside>
+      </div>
+    </header>
+    <nav class="page-navigation">
+      {% block nav %}
+        <a href="{% url 'dashboard' %}">Dashboard</a>
+        <a href="{% url 'dashboard' %}">Trade</a>
+        <a href="{% url 'dashboard' %}">Research</a>
+        <a href="{% url 'dashboard' %}">Games & Rankings</a>
+        <a href="{% url 'dashboard' %}">Account Management</a>
+      {% endblock %}
+    </nav>
+    <main class="page-content">
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+</body>
+</html>

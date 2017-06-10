@@ -1,0 +1,145 @@
+html, body {
+  margin: 0;
+  min-height: 100%;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  background: #F4F4F4;
+  color: #222222;
+}
+
+.cf:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a, a:visited {
+  color: #A463F2;
+}
+
+input[type='text'],
+input[type='password'],
+input[type='email'] {
+  display: inline-block;
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #CCCCCC;
+  border-radius: 3px;
+  font-size: 1rem;
+  width: 100%;
+  max-width: 16rem;
+}
+input[type='text']:focus,
+input[type='password']:focus,
+input[type='email']:focus {
+  border-color: #A463F2;
+  outline: 0;
+}
+
+.form {
+  max-width: 32rem;
+}
+.form__field {
+  margin-bottom: 0.5rem;
+}
+.form__field label {
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.btn {
+  display: inline-block;
+  background: #A463F2;
+  border: 2px solid #A463F2;
+  border-radius: 3px;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  color: #FFFFFF;
+}
+
+.note {
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 3px;
+}
+.note--danger {
+  color: #A94442;
+  background: #F2DEDE;
+}
+.note--warning {
+  color: #8A6D3B;
+  background: #FCF8E3;
+}
+.note--success {
+  color: #3C763D;
+  background: #DFF0D8;
+}
+.note--info {
+  color: #31708F;
+  background: #D9EDF7;
+}
+
+.page-container {
+  background: #FFFFFF;
+  min-height: 100%;
+  max-width: 60rem;
+  width: 95%;
+  margin: 0 auto;
+}
+
+.page-header {
+  background: #A463F2;
+  color: #FFFFFF;
+  line-height: 3.75rem;
+  padding: 0 2rem;
+}
+.page-header h1 {
+  float: left;
+  margin: 0;
+}
+.page-header aside {
+  float: right;
+}
+.page-header aside span {
+  color: #E8DDF4;
+}
+.page-header aside a {
+  display: inline-block;
+  color: #FFFFFF;
+  text-decoration: none;
+  transition: color 200ms, background 200ms;
+  padding: 0 0.75rem;
+}
+.page-header aside a:hover {
+  background: #FFFFFF;
+  color: #A463F2;
+}
+
+.page-navigation {
+  background: #E8DDF4;
+  line-height: 2.5rem;
+  padding: 0 2rem;
+}
+.page-navigation a {
+  color: #222222;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  font-weight: bold;
+  display: inline-block;
+  margin-right: 0.75rem;
+}
+
+.page-content {
+  padding: 1rem 2rem;
+}
+
+.page-title {
+  font-weight: 300;
+  font-size: 2rem;
+  margin: 0;
+  padding: 0 0 1rem;
+}
