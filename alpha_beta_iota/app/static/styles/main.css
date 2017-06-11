@@ -1,6 +1,6 @@
 html, body {
   margin: 0;
-  min-height: 100%;
+  min-height: 100vh;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 16px;
   background: #F4F4F4;
@@ -17,6 +17,15 @@ html, body {
   content: "";
   display: table;
   clear: both;
+}
+
+.fl { float: left; }
+.fr { float: right; }
+.fn { float: none; }
+@media (min-width: 769px) {
+  .fl-ns { float: left; }
+  .fr-ns { float: right; }
+  .fn-ns { float: none; }
 }
 
 a, a:visited {
@@ -56,7 +65,7 @@ input[type='email']:focus {
   margin-bottom: 0.25rem;
 }
 
-.btn {
+.btn, a.btn {
   display: inline-block;
   background: #A463F2;
   border: 2px solid #A463F2;
@@ -65,6 +74,9 @@ input[type='email']:focus {
   font-size: 1rem;
   color: #FFFFFF;
   text-decoration: none;
+}
+.btn:hover {
+  opacity: 0.8;
 }
 .btn--large {
   font-size: 1.2rem;
@@ -78,9 +90,6 @@ input[type='email']:focus {
   background: #FFFFFF;
   border-color: #FFFFFF;
   color: #A463F2;
-}
-.btn--inverse:hover {
-  opacity: 0.8;
 }
 
 .note {
@@ -109,7 +118,7 @@ input[type='email']:focus {
 /*************************************/
 .page-container {
   background: #FFFFFF;
-  min-height: 100%;
+  min-height: 100vh;
   max-width: 60rem;
   width: 95%;
   margin: 0 auto;
@@ -199,9 +208,15 @@ input[type='email']:focus {
 .home__features {
   padding: 4rem 2rem;
 }
-.home__features__list {
-  width: 40%;
-  float: left;
+@media (min-width: 769px) {
+  .home__features__list {
+    width: 40%;
+    float: left;
+  }
+  .home__features__screen {
+    width: 60%;
+    float: right;
+  }
 }
 .home__features__list h2 {
   margin-top: 0;
@@ -212,10 +227,6 @@ input[type='email']:focus {
   font-size: 1.2rem;
   padding-left: 1.4rem;
   line-height: 1.5;
-}
-.home__features__screen {
-  width: 60%;
-  float: right;
 }
 .home__features__screen img {
   border: 2px solid #CCCCCC;

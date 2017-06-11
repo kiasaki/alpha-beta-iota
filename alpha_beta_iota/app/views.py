@@ -5,27 +5,18 @@ from django import forms
 from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
 
 from app.utils import cached
 from app.kibot import kibot_fetch_history
+from app.forms import SignUpForm, AccountForm
 from app.models import AssetType, AssetTickSummary
-
-
-class SignUpForm(UserCreationForm):
-    email = forms.EmailField(max_length=254, help_text='Required. Inform a valid email address.')
-
-    class Meta:
-        model = User
-        fields = ('username', 'email', 'password1', 'password2', )
 
 
 def home(request):
     return render(request, 'home.html')
-
 
 @login_required
 def dashboard(request):
@@ -44,8 +35,20 @@ def games(request):
     return render(request, 'games.html')
 
 @login_required
-def account(request):
-    return render(request, 'account.html')
+def accounts(request):
+    return render(request, 'accounts.html')
+
+@login_required
+def accounts_new(request):
+    if request.method == 'POST':
+        account = Account(owner=request.user)
+        form = AccountForm(request.POST, instance=account)
+        if form.is_valid():
+            form.save()
+            return redirect('accounts')
+    else:
+        form = AccountForm()
+    return render(request, 'accounts_new.html', {'form': form})
 
 
 def signup(request):
@@ -61,6 +64,7 @@ def signup(request):
     else:
         form = SignUpForm()
     return render(request, 'registration/signup.html', {'form': form})
+
 
 new_york_tz = pytz.timezone('America/New_York')
 

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}New Solo Trading Account{% endblock %}
+
+{% block content %}
+  <h2 class="page-title">New Solo Trading Account</h2>
+
+  <p>
+    You are about to create a trading account with an initial sum of $100 000 USD.
+    With this account you'll be able to trade and compete on those global leaderboards.
+  </p>
+
+  <form method="post" action="{% url 'accounts_new' %}" class="form">
+    {% if form.errors %}
+      <div class="note note--danger">
+        {{ form.errors }}
+      </div>
+    {% endif %}
+
+    {% csrf_token %}
+
+    <div class="form__field">
+      {{ form.name.label_tag }}
+      {{ form.name }}
+    </div>
+
+    <button type="submit" class="btn">Create</button>
+  </form>
+
+{% endblock %}

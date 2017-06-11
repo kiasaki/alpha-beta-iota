@@ -15,7 +15,11 @@
   <div class="page-container">
     <header class="page-header">
       <div class="cf">
-        <h1><a href="{% url 'home' %}">αlpha βeta ιota</a></h1>
+        <h1>
+          <a href="{% if user.is_authenticated %}{% url 'dashboard' %}{% else %}{% url 'home' %}{% endif %}">
+            αlpha βeta ιota
+          </a>
+        </h1>
         <aside>
           {% if user.is_authenticated %}
             <span>Hi, {{ user.username }}!</span>&nbsp;
@@ -34,7 +38,7 @@
         <a href="{% url 'trade' %}">Trade</a>
         <a href="{% url 'research' %}">Research</a>
         <a href="{% url 'games' %}">Games & Rankings</a>
-        <a href="{% url 'account' %}">Account Management</a>
+        <a href="{% url 'accounts' %}">Trading Accounts</a>
       </nav>
     {% endblock %}
 
