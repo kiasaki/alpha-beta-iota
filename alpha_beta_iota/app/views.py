@@ -12,7 +12,7 @@ from django.contrib.auth import authenticate, login
 from app.utils import cached
 from app.kibot import kibot_fetch_history
 from app.forms import SignUpForm, AccountForm
-from app.models import AssetType, AssetTickSummary
+from app.models import Account, AssetType, AssetTickSummary
 
 
 def home(request):
@@ -36,7 +36,8 @@ def games(request):
 
 @login_required
 def accounts(request):
-    return render(request, 'accounts.html')
+    accounts = Account.objects.filter(owner=request.user).order_by('-updated_at')
+    return render(request, 'accounts.html', {'accounts': accounts})
 
 @login_required
 def accounts_new(request):
