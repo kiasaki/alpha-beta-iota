@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}New Solo Trading Account{% endblock %}
+
+{% block content %}
+  <h2 class="page-title">
+    {% if not form.instance.id %}
+      New Solo Trading Account
+    {% else %}
+      Edit Trading Account
+    {% endif %}
+  </h2>
+
+  {% if not form.instance.id %}
+    <p>
+      You are about to create a trading account with an initial sum of $100 000 USD.
+      With this account you'll be able to trade and compete on those global leaderboards.
+    </p>
+  {% endif %}
+
+  <form method="post" action="{% url 'accounts-update' form.instance.id %}" class="form">
+    {% if form.errors %}
+      <div class="note note--danger">
+        {{ form.errors }}
+      </div>
+    {% endif %}
+
+    {% csrf_token %}
+
+    <div class="form__field">
+      {{ form.name.label_tag }}
+      {{ form.name }}
+    </div>
+
+    <button type="submit" class="btn">
+      {% if not form.instance.id %}
+        Create
+      {% else %}
+        Update
+      {% endif %}
+    </button>
+  </form>
+
+{% endblock %}

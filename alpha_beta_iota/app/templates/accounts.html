@@ -6,19 +6,21 @@
 {% block content %}
   <h2 class="page-title">
     Trading Accounts
-    <a href="{% url 'accounts_new' %}" class="btn fr">New Account</a>
+    <a href="{% url 'accounts-add' %}" class="btn fr">New Account</a>
   </h2>
 
   <table class="table">
     <thead>
       <tr>
         <th>Name</th>
+        <th style="width:70px;">Actions</th>
       </tr>
     </thead>
     <tbody>
       {% for a in accounts %}
         <tr>
           <td>{{ a.name }}</td>
+          <td><a href="{% url 'accounts-update' a.id %}">Rename</a></td>
         </tr>
       {% endfor %}
     </tbody>

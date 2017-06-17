@@ -40,7 +40,7 @@ def accounts(request):
     return render(request, 'accounts.html', {'accounts': accounts})
 
 @login_required
-def accounts_new(request):
+def accounts_add(request):
     if request.method == 'POST':
         account = Account(owner=request.user)
         form = AccountForm(request.POST, instance=account)
@@ -49,7 +49,19 @@ def accounts_new(request):
             return redirect('accounts')
     else:
         form = AccountForm()
-    return render(request, 'accounts_new.html', {'form': form})
+    return render(request, 'accounts_form.html', {'form': form})
+
+@login_required
+def accounts_update(request, pk):
+    account = Account.objects.get(pk=pk)
+    if request.method == 'POST':
+        form = AccountForm(request.POST, instance=account)
+        if form.is_valid():
+            form.save()
+            return redirect('accounts')
+    else:
+        form = AccountForm(instance=account)
+    return render(request, 'accounts_form.html', {'form': form})
 
 
 def signup(request):

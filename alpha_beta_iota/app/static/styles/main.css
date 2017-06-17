@@ -114,6 +114,23 @@ input[type='email']:focus {
   background: #D9EDF7;
 }
 
+.table {
+  width: 100%;
+  margin-bottom: 1rem;
+  border-collapse: collapse;
+}
+.table thead tr {
+  background: #E8DDF4;
+}
+.table th, .table td {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #E8DDF4;
+}
+.table th {
+  font-weight: bold;
+  text-align: left;
+}
+
 /* Layout */
 /*************************************/
 .page-container {
